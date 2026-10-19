@@ -45,9 +45,11 @@ function createPlayer(name, order) {
     const markSpot = (row, column) => {
         for (const emptyCell of gameBoard.getEmptyCells()) {
             if (emptyCell[0] === row && emptyCell[1] === column) {
-                return gameBoard.setBoardCell(row, column, order);
+                gameBoard.setBoardCell(row, column, order);
+                return true;
             }
         }
+        return false;
     };
 
     return {name, order, sign, getScore, increaseScore, resetScore, markSpot};
@@ -72,7 +74,6 @@ function gameController() {
     const playRound = (row, column) => {
         activePlayer.markSpot(row, column);
         console.log(`${activePlayer.name} played on row ${row + 1} and column ${column + 1}`)
-        switchPlayerTurn();
         if (++currentTurn > 2) {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
@@ -81,6 +82,7 @@ function gameController() {
                 return;
             };
         }
+        switchPlayerTurn();
         printNewRound();
     };
     const checkWinCondition = () => {
