@@ -32,19 +32,23 @@ const gameBoard = (() => {
 
 function createPlayer(name, order) {
     let playerScore = 0;
-    const sign = order === 1 ? "X" : "O"
+    const sign = order === 1 ? "X" : "O";
     const getScore = () => {
         return playerScore;
-    }
+    };
     const increaseScore = () => {
         return ++playerScore;
-    }
+    };
     const resetScore = () => {
         return playerScore = 0;
-    }
+    };
     const markSpot = (row, column) => {
-        return gameBoard.setBoardCell(row, column, order);
-    }
+        for (const emptyCell of gameBoard.getEmptyCells()) {
+            if (emptyCell[0] === row && emptyCell[1] === column) {
+                return gameBoard.setBoardCell(row, column, order);
+            }
+        }
+    };
 
     return {name, order, sign, getScore, increaseScore, resetScore, markSpot};
 };
@@ -100,7 +104,11 @@ function gameController() {
             }
         }
 
-        if (BOARD_STATE.find((item) => item == [PLAYER_ORDER, PLAYER_ORDER, PLAYER_ORDER])) {
+        if (BOARD_STATE.find((item) => {
+            item[0] === PLAYER_ORDER &&
+            item[1] === PLAYER_ORDER &&
+            item[2] === PLAYER_ORDER
+        })) {
             return true;
         }
         for (let i = 0; i < 3; i++) {
