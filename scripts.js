@@ -72,8 +72,47 @@ function gameController() {
         switchPlayerTurn();
         printNewRound();
     };
+    const checkWinCondition = () => {
+        const PLAYER_ORDER = activePlayer.order;
+        const BOARD_STATE = gameBoard.getBoard();
 
-    return {getActivePlayer, playRound};
+        function checkDiagonals() {
+            let rightDiagonal = 0, leftDiagonal = 0;
+            for (let i = 0; i < 3; i++) {
+                let j = BOARD_STATE.length - 1 - i;
+
+                if (BOARD_STATE[i][i] === PLAYER_ORDER) {
+                    leftDiagonal++;
+                }
+                if (BOARD_STATE[i][j] === PLAYER_ORDER) {
+                    rightDiagonal++;
+                }
+            }
+            if ((rightDiagonal === 3) || (leftDiagonal === 3)) {
+                return true;
+            }
+        }
+
+        if (BOARD_STATE.find((item) => item == [PLAYER_ORDER, PLAYER_ORDER, PLAYER_ORDER])) {
+            return true;
+        }
+        for (let i = 0; i < 3; i++) {
+            let sequenceCounter = 0;
+            for (let j = 0; j < 3; j++) {
+                if (BOARD_STATE[j][i] === PLAYER_ORDER) {
+                    sequenceCounter++;
+                }
+            }
+            if (sequenceCounter === 3) {
+                return true;
+            }
+        }
+        return checkDiagonals() ? true : false;
+        
+    };
+
+    return {getActivePlayer, playRound, checkWinCondition};
 }
 
 const match = gameController();
+console.log(match.checkWinCondition());
