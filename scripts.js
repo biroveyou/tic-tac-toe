@@ -82,6 +82,10 @@ function gameController() {
                 return;
             };
         }
+        if (currentTurn > 9) {
+            console.log("Tie!")
+            return;
+        }
         switchPlayerTurn();
         printNewRound();
     };
