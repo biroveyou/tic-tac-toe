@@ -71,6 +71,10 @@ function gameController() {
         console.log(console.log(gameBoard.getBoard()));
         console.log(`${activePlayer.name}'s turn.`)
     };
+    const newMatch = () => {
+        gameBoard.reset();
+        currentTurn = 0;
+    };
     const playRound = (row, column) => {
         activePlayer.markSpot(row, column);
         console.log(`${activePlayer.name} played on row ${row + 1} and column ${column + 1}`)
@@ -78,12 +82,13 @@ function gameController() {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
                 console.log(`${activePlayer.name} won the match! Total score of ${activePlayer.getScore()}`)
-                gameBoard.reset();
+                newMatch();
                 return;
             };
         }
         if (currentTurn > 9) {
             console.log("Tie!")
+            newMatch();
             return;
         }
         switchPlayerTurn();
