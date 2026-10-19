@@ -64,12 +64,19 @@ function gameController() {
     const printNewRound = () => {
         console.log(console.log(gameBoard.getBoard()));
         console.log(`${activePlayer.name}'s turn.`)
-        currentTurn++;
     };
     const playRound = (row, column) => {
         activePlayer.markSpot(row, column);
         console.log(`${activePlayer.name} played on row ${row + 1} and column ${column + 1}`)
         switchPlayerTurn();
+        if (++currentTurn > 2) {
+            if (checkWinCondition()) {
+                activePlayer.increaseScore();
+                console.log(`${activePlayer.name} won the match! Total score of ${activePlayer.getScore()}`)
+                gameBoard.reset();
+                return;
+            };
+        }
         printNewRound();
     };
     const checkWinCondition = () => {
@@ -107,12 +114,11 @@ function gameController() {
                 return true;
             }
         }
+
         return checkDiagonals() ? true : false;
-        
     };
 
-    return {getActivePlayer, playRound, checkWinCondition};
+    return {getActivePlayer, playRound};
 }
 
 const match = gameController();
-console.log(match.checkWinCondition());
