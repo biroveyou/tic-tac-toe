@@ -30,6 +30,38 @@ const gameBoard = (() => {
     return {getBoard, setBoardCell, getEmptyCells, reset};
 })();
 
+const displayController = (() => {
+    const game = gameController();
+
+    const body = document.querySelector("body");
+    const screenBoard = document.createElement("div");
+    body.appendChild(screenBoard);
+
+    const displayBoard = () => {
+        for (let i = 0; i < 3; i++) {
+            const cellRow = document.createElement("div");
+            cellRow.classList.add("cell-row");
+            for (let j = 0; j < 3; j++) {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                if (j === 0) {
+                    cellButton.classList.add("left-column");
+                } else if (j === 1) {
+                    cellButton.classList.add("center-column");
+                } else {
+                    cellButton.classList.add("right-column");
+                }
+                // cellButton.setAttribute("data-position", `[${i}, ${j}]`)
+                cellButton.textContent = "X";
+                cellRow.appendChild(cellButton);
+            }
+            screenBoard.appendChild(cellRow);
+        }
+    }
+
+    displayBoard();
+})();
+
 function createPlayer(name, order) {
     let playerScore = 0;
     const sign = order === 1 ? "X" : "O";
@@ -77,20 +109,19 @@ function gameController() {
     };
     const playRound = (row, column) => {
         activePlayer.markSpot(row, column);
-        console.log(`${activePlayer.name} played on row ${row + 1} and column ${column + 1}`)
+
         if (++currentTurn > 2) {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
-                console.log(`${activePlayer.name} won the match! Total score of ${activePlayer.getScore()}`)
                 newMatch();
                 return;
             };
         }
         if (currentTurn > 9) {
-            console.log("Tie!")
             newMatch();
             return;
         }
+
         switchPlayerTurn();
         printNewRound();
     };
@@ -139,5 +170,3 @@ function gameController() {
 
     return {getActivePlayer, playRound};
 }
-
-const match = gameController();
