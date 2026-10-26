@@ -1,12 +1,10 @@
 :root {
-    --dark-blue: #1422A6;
-    --light-blue: #5061B2;
-    --dark-green: #3B704F;
-    --medium-green: #728D65;
-    --light-green: #A1B49B;
-    --white: #F2F2F2;
-    --orange: #D34509;
-    --black: #2E414C;
+    --blue: #4D66D6;
+    --yellow: #E8990F;
+    --green: #A1B49B;
+    --orange: #FF6355;
+    --black: #4A2A4F;
+    --white: #FAFAFA;
 }
 
 body {
@@ -22,10 +20,37 @@ main {
     justify-content: center;
     align-items: center;
 
-    background-color: var(--light-blue);
+    background-color: var(--blue);
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+.screen-board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 4px;
+
+    background-color: var(--white);
+    border: 4px solid var(--green);
 }
 
 .cell {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
+
+    border-radius: 0;
+    border: none;
+    text-align: center;
+}
+
+.cell:nth-child(even) {
+    background-color: var(--green);
+}
+
+.cell:nth-child(5) {
+    background-color: var(--orange);
 }

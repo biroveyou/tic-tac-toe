@@ -35,6 +35,7 @@ const displayController = (() => {
 
     const main = document.querySelector("main");
     const screenBoard = document.createElement("div");
+    screenBoard.classList.add("screen-board");
     main.appendChild(screenBoard);
 
     const updateScreen = () => {
@@ -42,9 +43,12 @@ const displayController = (() => {
 
         const BOARD_STATE = gameBoard.getBoard();
 
+        const MARK_X = `<svg class="mark-x" viewBox="0 0 100 100" width="100" height="100"><line x1="10" y1="10" x2="90" y2="90" stroke="var(--black)" stroke-width="4"/><line x1="90" y1="10" x2="10" y2="90" stroke="var(--black)" stroke-width="4"/></svg>`;
+        const MARK_O = `<svg class="mark-o" viewBox="0 0 100 100" height="100" width="100"><circle r="40" cx="50" cy="50" fill="none" stroke="var(--yellow)" stroke-width="4" /></svg>`;
+        const FILL_MARK_X = `<svg class="mark-x" viewBox="0 0 100 100" width="100" height="100"><line x1="10" y1="10" x2="90" y2="90" stroke="var(--black)" stroke-width="6"/><line x1="90" y1="10" x2="10" y2="90" stroke="var(--black)" stroke-width="6"/></svg>`;
+        const FILL_MARK_O = `<svg class="mark-o" viewBox="0 0 100 100" height="100" width="100"><circle r="40" cx="50" cy="50" fill="var(--yellow)" stroke="var(--yellow)" stroke-width="4" /></svg>`;
+
         for (let i = 0; i < 3; i++) {
-            const cellRow = document.createElement("div");
-            cellRow.classList.add("cell-row");
             for (let j = 0; j < 3; j++) {
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
@@ -57,10 +61,23 @@ const displayController = (() => {
                 }
                 cellButton.dataset.row = i;
                 cellButton.dataset.column = j;
-                cellButton.textContent = BOARD_STATE[i][j] !== 0 ? BOARD_STATE[i][j] : " - ";
-                cellRow.appendChild(cellButton);
+                if (BOARD_STATE[i][j] === 1) {
+                    if (i === 1 && j === 1) {
+                        cellButton.innerHTML = FILL_MARK_X;
+                    } else {
+                        cellButton.innerHTML = MARK_X;
+                    }
+                } else if (BOARD_STATE[i][j] === 2) {
+                    if (i === 1 && j === 1) {
+                        cellButton.innerHTML = FILL_MARK_O;
+                    } else {
+                        cellButton.innerHTML = MARK_O;
+                    }
+                } else {
+                    cellButton.textContent = "";
+                }
+                screenBoard.appendChild(cellButton);
             }
-            screenBoard.appendChild(cellRow);
         }
     }
 
