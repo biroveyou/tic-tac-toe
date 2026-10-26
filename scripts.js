@@ -140,7 +140,7 @@ function gameController() {
         if (!activePlayer.markSpot(row, column)) {
             return;
         }
-
+        console.log(currentTurn);
         if (++currentTurn > 2) {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
@@ -148,7 +148,7 @@ function gameController() {
                 return;
             };
         }
-        if (currentTurn > 9) {
+        if (currentTurn >= 9) {
             newMatch();
             return;
         }
