@@ -125,22 +125,27 @@ function gameController() {
 
     let currentTurn = 0;
     let activePlayer = players[0];
+    let winCells = [];
 
     const getActivePlayer = () => {
         return activePlayer;
     };
+    const getWinCells = () => {
+        return winCells;
+    }
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
     const newMatch = () => {
         gameBoard.reset();
         currentTurn = 0;
+        winCells = [];
     };
     const playRound = (row, column) => {
         if (!activePlayer.markSpot(row, column)) {
             return;
         }
-        console.log(currentTurn);
+
         if (++currentTurn > 2) {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
@@ -173,28 +178,27 @@ function gameController() {
                 }
             }
             if ((rightDiagonal === 3) || (leftDiagonal === 3)) {
+                winCells = leftDiagonal > rightDiagonal ? [[0, 0], [1, 1], [2, 2]] : [[0, 2], [1, 1], [2, 0]];
                 return winCondition = true;
             }
         }
         function checkVerticals() {
-            for (const row of BOARD_STATE) {
-                if (row[0] === PLAYER_ORDER &&
-                    row[1] === PLAYER_ORDER &&
-                    row[2] === PLAYER_ORDER) {
+            for (let i = 0; i < 3; i++) {
+                if (BOARD_STATE[i][0] === PLAYER_ORDER &&
+                    BOARD_STATE[i][1] === PLAYER_ORDER &&
+                    BOARD_STATE[i][2] === PLAYER_ORDER) {
+                    winCells = [[i, 0], [i, 1], [i, 2]];
                     return winCondition = true;
                 }
             }
         }
         function checkHorizontals() {
             for (let i = 0; i < 3; i++) {
-                let sequenceCounter = 0;
-                for (let j = 0; j < 3; j++) {
-                    if (BOARD_STATE[j][i] === PLAYER_ORDER) {
-                        sequenceCounter++;
-                    }
-                }
-                if (sequenceCounter === 3) {
-                    return winCondition = true
+                if (BOARD_STATE[0][i] === PLAYER_ORDER &&
+                    BOARD_STATE[1][i] === PLAYER_ORDER &&
+                    BOARD_STATE[2][i] === PLAYER_ORDER) {
+                    winCells = [[0, i], [1, i], [2, i]];
+                    return winCondition = true;
                 }
             }
         }
@@ -206,5 +210,5 @@ function gameController() {
         return winCondition;
     };
 
-    return {getActivePlayer, playRound};
+    return {getActivePlayer, getWinCells, playRound};
 }
