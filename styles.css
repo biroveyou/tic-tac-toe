@@ -1,3 +1,31 @@
+:root {
+    --dark-blue: #1422A6;
+    --light-blue: #5061B2;
+    --dark-green: #3B704F;
+    --medium-green: #728D65;
+    --light-green: #A1B49B;
+    --white: #F2F2F2;
+    --orange: #D34509;
+    --black: #2E414C;
+}
+
 body {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--light-blue);
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
 }

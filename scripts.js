@@ -33,9 +33,9 @@ const gameBoard = (() => {
 const displayController = (() => {
     const game = gameController();
 
-    const body = document.querySelector("body");
+    const main = document.querySelector("main");
     const screenBoard = document.createElement("div");
-    body.appendChild(screenBoard);
+    main.appendChild(screenBoard);
 
     const updateScreen = () => {
         screenBoard.textContent = "";
