@@ -120,7 +120,9 @@ function gameController() {
         currentTurn = 0;
     };
     const playRound = (row, column) => {
-        activePlayer.markSpot(row, column);
+        if (!activePlayer.markSpot(row, column)) {
+            return;
+        }
 
         if (++currentTurn > 2) {
             if (checkWinCondition()) {
