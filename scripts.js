@@ -69,11 +69,8 @@ const displayController = (() => {
         const selectedCellColumn = e.target.dataset.column;
         if (!selectedCellRow || !selectedCellColumn) return;
 
-        console.log([selectedCellRow, selectedCellColumn]);
-
         game.playRound(Number(selectedCellRow), Number(selectedCellColumn));
         updateScreen();
-        console.log(gameBoard.getBoard());
     }
 
     screenBoard.addEventListener("click", clickHandlerBoard);
@@ -142,6 +139,7 @@ function gameController() {
     const checkWinCondition = () => {
         const PLAYER_ORDER = activePlayer.order;
         const BOARD_STATE = gameBoard.getBoard();
+        let winCondition = false;
 
         function checkDiagonals() {
             let rightDiagonal = 0, leftDiagonal = 0;
@@ -156,30 +154,37 @@ function gameController() {
                 }
             }
             if ((rightDiagonal === 3) || (leftDiagonal === 3)) {
-                return true;
+                return winCondition = true;
             }
         }
-
-        if (BOARD_STATE.find((item) => {
-            item[0] === PLAYER_ORDER &&
-            item[1] === PLAYER_ORDER &&
-            item[2] === PLAYER_ORDER
-        })) {
-            return true;
-        }
-        for (let i = 0; i < 3; i++) {
-            let sequenceCounter = 0;
-            for (let j = 0; j < 3; j++) {
-                if (BOARD_STATE[j][i] === PLAYER_ORDER) {
-                    sequenceCounter++;
+        function checkVerticals() {
+            for (const row of BOARD_STATE) {
+                if (row[0] === PLAYER_ORDER &&
+                    row[1] === PLAYER_ORDER &&
+                    row[2] === PLAYER_ORDER) {
+                    return winCondition = true;
                 }
             }
-            if (sequenceCounter === 3) {
-                return true;
+        }
+        function checkHorizontals() {
+            for (let i = 0; i < 3; i++) {
+                let sequenceCounter = 0;
+                for (let j = 0; j < 3; j++) {
+                    if (BOARD_STATE[j][i] === PLAYER_ORDER) {
+                        sequenceCounter++;
+                    }
+                }
+                if (sequenceCounter === 3) {
+                    return winCondition = true
+                }
             }
         }
 
-        return checkDiagonals() ? true : false;
+        checkDiagonals();
+        checkVerticals();
+        checkHorizontals();
+
+        return winCondition;
     };
 
     return {getActivePlayer, playRound};
