@@ -55,13 +55,30 @@ const displayController = (() => {
                 } else {
                     cellButton.classList.add("right-column");
                 }
-                cellButton.setAttribute("data-position", `${i},${j}`)
+                cellButton.dataset.row = i;
+                cellButton.dataset.column = j;
                 cellButton.textContent = BOARD_STATE[i][j] !== 0 ? BOARD_STATE[i][j] : " - ";
                 cellRow.appendChild(cellButton);
             }
             screenBoard.appendChild(cellRow);
         }
     }
+
+    const clickHandlerBoard = (e) => {
+        const selectedCellRow = e.target.dataset.row;
+        const selectedCellColumn = e.target.dataset.column;
+        if (!selectedCellRow || !selectedCellColumn) return;
+
+        console.log([selectedCellRow, selectedCellColumn]);
+
+        game.playRound(Number(selectedCellRow), Number(selectedCellColumn));
+        updateScreen();
+        console.log(gameBoard.getBoard());
+    }
+
+    screenBoard.addEventListener("click", clickHandlerBoard);
+
+    updateScreen();
 })();
 
 function createPlayer(name, order) {
@@ -101,10 +118,6 @@ function gameController() {
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
-    const printNewRound = () => {
-        console.log(console.log(gameBoard.getBoard()));
-        console.log(`${activePlayer.name}'s turn.`)
-    };
     const newMatch = () => {
         gameBoard.reset();
         currentTurn = 0;
@@ -125,7 +138,6 @@ function gameController() {
         }
 
         switchPlayerTurn();
-        printNewRound();
     };
     const checkWinCondition = () => {
         const PLAYER_ORDER = activePlayer.order;
