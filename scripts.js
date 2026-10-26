@@ -37,7 +37,11 @@ const displayController = (() => {
     const screenBoard = document.createElement("div");
     body.appendChild(screenBoard);
 
-    const displayBoard = () => {
+    const updateScreen = () => {
+        screenBoard.textContent = "";
+
+        const BOARD_STATE = gameBoard.getBoard();
+
         for (let i = 0; i < 3; i++) {
             const cellRow = document.createElement("div");
             cellRow.classList.add("cell-row");
@@ -51,15 +55,13 @@ const displayController = (() => {
                 } else {
                     cellButton.classList.add("right-column");
                 }
-                // cellButton.setAttribute("data-position", `[${i}, ${j}]`)
-                cellButton.textContent = "X";
+                cellButton.setAttribute("data-position", `${i},${j}`)
+                cellButton.textContent = BOARD_STATE[i][j] !== 0 ? BOARD_STATE[i][j] : " - ";
                 cellRow.appendChild(cellButton);
             }
             screenBoard.appendChild(cellRow);
         }
     }
-
-    displayBoard();
 })();
 
 function createPlayer(name, order) {
