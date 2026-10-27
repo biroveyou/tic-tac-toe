@@ -43,6 +43,7 @@
 }
 
 body,
+div,
 h1,
 p {
     box-sizing: border-box;
@@ -66,14 +67,83 @@ main {
     background-color: var(--blue);
 }
 
-button {
+button,
+input {
     all: unset;
     cursor: pointer;
+}
+
+.controls {
+    margin-bottom: 48px;
+    width: 316px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+input {
+    width: 112px;
+    padding: 4px;
+    border: 4px;
+
+    border: 4px solid var(--green);
+    background-color: var(--green);
+}
+
+input::placeholder {
+    color: var(--white);
+}
+
+input:focus {
+    color: var(--black);
+    background-color: var(--white);
+    border: 4px solid var(--green);
+}
+
+#player2-name {
+    text-align: right;
+}
+
+.play-icon {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--orange);
+    stroke: var(--white);
+    fill: var(--white);
+    border-radius: 50%;
+}
+
+.restart-icon {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--orange);
+    stroke: var(--white);
+    fill: var(--white);
+    border-radius: 50%;
+}
+
+.restart-icon svg {
+    width: 28px;
+    height: 28px;
 }
 
 .game-space {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
