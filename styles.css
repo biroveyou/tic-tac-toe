@@ -134,3 +134,8 @@ h1 {
     flex-direction: column;
     justify-content: center;
 }
+
+#nickname {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
