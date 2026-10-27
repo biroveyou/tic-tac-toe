@@ -33,10 +33,21 @@ const gameBoard = (() => {
 const displayController = (() => {
     const game = gameController();
 
+    const isPlayable = false;
+
     const gameSpace = document.querySelector(".game-space");
     const screenBoard = document.createElement("div");
     screenBoard.classList.add("screen-board");
     gameSpace.appendChild(screenBoard);
+
+    const checkPlayableState = () => {
+        if (!isPlayable) {
+            const screenCells = document.querySelectorAll(".cell");
+            screenCells.forEach(element => {
+                element.disabled = true;
+            });
+        }
+    }
 
     const updateScreen = () => {
         screenBoard.textContent = "";
@@ -93,6 +104,7 @@ const displayController = (() => {
     screenBoard.addEventListener("click", clickHandlerBoard);
 
     updateScreen();
+    checkPlayableState();
 })();
 
 function createPlayer(name, order) {
