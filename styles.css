@@ -7,16 +7,59 @@
     --white: #FAFAFA;
 }
 
-body {
+@font-face {
+    font-family: 'Arvo';
+    src: url('./fonts/Arvo/Arvo-Regular.woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Arvo';
+    src: url('./fonts/Arvo/Arvo-Bold.woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Arvo';
+    src: url('./fonts/Arvo/Arvo-Italic.woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('./fonts/Lato/Lato-Regular.woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('./fonts/Lato/Lato-Bold.woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body,
+h1,
+p {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: 'Lato';
+    color: var(--white)
 }
 
 main {
     height: 100vh;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -26,6 +69,13 @@ main {
 button {
     all: unset;
     cursor: pointer;
+}
+
+.game-space {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .screen-board {
@@ -53,4 +103,34 @@ button {
 
 .cell:nth-child(5) {
     background-color: var(--orange);
+}
+
+footer {
+    order: 2;
+    flex-shrink: 0;
+    align-self: center;
+
+    display: flex;
+    width: 316px;
+    margin-bottom: 16px;
+}
+
+h1 {
+    color: var(--white);
+    font-family: 'Arvo', sans-serif;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 1.5rem;
+
+    flex-grow: 2;
+}
+
+.author {
+    flex-grow: 1;
+    flex-shrink: 0;
+    text-align: right;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

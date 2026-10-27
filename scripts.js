@@ -33,10 +33,10 @@ const gameBoard = (() => {
 const displayController = (() => {
     const game = gameController();
 
-    const main = document.querySelector("main");
+    const gameSpace = document.querySelector(".game-space");
     const screenBoard = document.createElement("div");
     screenBoard.classList.add("screen-board");
-    main.appendChild(screenBoard);
+    gameSpace.appendChild(screenBoard);
 
     const updateScreen = () => {
         screenBoard.textContent = "";
