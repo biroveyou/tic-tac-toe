@@ -40,18 +40,35 @@ const displayController = (() => {
     gameSpace.appendChild(screenBoard);
 
     const playBtn = document.querySelector(".play-icon");
+    const restartBtn = document.querySelector(".restart-icon");
 
     const playGame = () => {
-        const playerOneInput = document.querySelector("#player-one-name");
-        const playerTwoInput = document.querySelector("#player-two-name");
+        const playerOneInput = document.querySelector("#player-one-input");
+        const playerTwoInput = document.querySelector("#player-two-input");
+        const displayNames = document.querySelectorAll(".player-name")
 
-        if (playerOneInput.value && playerTwoInput.value) {
-            game = gameController(createPlayer(playerOneInput.value, 1), createPlayer(playerTwoInput.value, 2));
-            
-            console.log(game.getActivePlayer());
+        const playerOneName = playerOneInput.value;
+        const playerTwoName = playerTwoInput.value;
+
+        if ((playerOneName && playerTwoName) && !(playerOneName === playerTwoName)) {
+            game = gameController(createPlayer(playerOneName, 1), createPlayer(playerTwoName, 2));
             isPlayable = true;
-
             updateScreen();
+
+            playerOneInput.style.display = "none";
+            playerTwoInput.style.display = "none";
+
+            for (let i = 0; i < 2; i++) {
+                displayNames[i].style.display = "block";
+                if (i === 0) {
+                    displayNames[i].textContent = playerOneName;
+                } else if (i === 1) {
+                    displayNames[i].textContent = playerTwoName;
+                }
+            }
+
+            playBtn.style.display = "none";
+            restartBtn.style.display = "flex";
         }
     }
 

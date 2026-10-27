@@ -101,7 +101,20 @@ input:focus {
     border: 4px solid var(--green);
 }
 
-#player-two-name {
+.player-name {
+    display: none;
+
+    width: 112px;
+    padding: 4px 8px;
+    border: 4px;
+    color: var(--white);
+
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+#player-two-input,
+.player-two .player-name {
     text-align: right;
 }
 
@@ -121,11 +134,11 @@ input:focus {
 }
 
 .restart-icon {
+    display: none;
     width: 32px;
     height: 32px;
     padding: 4px;
 
-    display: flex;
     justify-content: center;
     align-items: center;
 
