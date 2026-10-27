@@ -31,14 +31,29 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
-    const game = gameController();
-
-    const isPlayable = false;
+    let game = null;
+    let isPlayable = false;
 
     const gameSpace = document.querySelector(".game-space");
     const screenBoard = document.createElement("div");
     screenBoard.classList.add("screen-board");
     gameSpace.appendChild(screenBoard);
+
+    const playBtn = document.querySelector(".play-icon");
+
+    const playGame = () => {
+        const playerOneInput = document.querySelector("#player-one-name");
+        const playerTwoInput = document.querySelector("#player-two-name");
+
+        if (playerOneInput.value && playerTwoInput.value) {
+            game = gameController(createPlayer(playerOneInput.value, 1), createPlayer(playerTwoInput.value, 2));
+            
+            console.log(game.getActivePlayer());
+            isPlayable = true;
+
+            updateScreen();
+        }
+    }
 
     const checkPlayableState = () => {
         if (!isPlayable) {
@@ -90,6 +105,7 @@ const displayController = (() => {
                 screenBoard.appendChild(cellButton);
             }
         }
+        checkPlayableState();
     }
 
     const clickHandlerBoard = (e) => {
@@ -102,9 +118,10 @@ const displayController = (() => {
     }
 
     screenBoard.addEventListener("click", clickHandlerBoard);
+    playBtn.addEventListener("click", playGame);
 
     updateScreen();
-    checkPlayableState();
+
 })();
 
 function createPlayer(name, order) {
@@ -132,8 +149,8 @@ function createPlayer(name, order) {
     return {name, order, sign, getScore, increaseScore, resetScore, markSpot};
 };
 
-function gameController() {
-    const players = [createPlayer("Daniel", 1), createPlayer("Passos", 2)]
+function gameController(playerOne, playerTwo) {
+    const players = [playerOne, playerTwo];
 
     let currentTurn = 0;
     let activePlayer = players[0];
