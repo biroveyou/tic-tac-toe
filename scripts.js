@@ -72,6 +72,24 @@ const displayController = (() => {
         }
     }
 
+    const restartGame = () => { 
+        gameBoard.reset();
+        isPlayable = false;
+        updateScreen();
+
+        const playerOneInput = document.querySelector("#player-one-input");
+        const playerTwoInput = document.querySelector("#player-two-input");
+        const displayNames = document.querySelectorAll(".player-name")
+        displayNames.forEach(element => {
+            element.style.display = "none";
+        })
+        playerOneInput.style.display = "block";
+        playerTwoInput.style.display = "block";
+
+        restartBtn.style.display = "none";
+        playBtn.style.display = "flex";  
+    }
+
     const checkPlayableState = () => {
         if (!isPlayable) {
             const screenCells = document.querySelectorAll(".cell");
@@ -136,6 +154,7 @@ const displayController = (() => {
 
     screenBoard.addEventListener("click", clickHandlerBoard);
     playBtn.addEventListener("click", playGame);
+    restartBtn.addEventListener("click", restartGame);
 
     updateScreen();
 
