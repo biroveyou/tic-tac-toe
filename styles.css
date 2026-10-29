@@ -78,6 +78,7 @@ input {
     width: 316px;
 
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
 }
@@ -115,7 +116,8 @@ input:focus {
 }
 
 #player-two-input,
-.player-two .player-name {
+.player-two .player-name,
+.player-two .score {
     text-align: right;
 }
 
@@ -165,12 +167,12 @@ input:focus {
     top: 48px;
 }
 
-.player-two .score {
-    text-align: right;
-}
+.gameInfo {
+    position: absolute;
+    top: 52px;
+    width: 316px;
+    text-align: center;
 
-.results {
-    display: none;
 }
 
 .game-space {

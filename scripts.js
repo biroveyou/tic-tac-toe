@@ -54,6 +54,7 @@ const displayController = (() => {
             game = gameController(createPlayer(playerOneName, 1), createPlayer(playerTwoName, 2));
             isPlayable = true;
             updateScreen();
+            updateTurn();
 
             playerOneInput.style.display = "none";
             playerTwoInput.style.display = "none";
@@ -76,7 +77,8 @@ const displayController = (() => {
         game.resetPlayerScores();
         isPlayable = false;
         updateScreen();
-        updateScore(true);
+        updateScore();
+        updateTurn();
 
         const playerOneInput = document.querySelector("#player-one-input");
         const playerTwoInput = document.querySelector("#player-two-input");
@@ -98,18 +100,30 @@ const displayController = (() => {
             });
         }
     };
-    const updateScore = (isNewGame = false) => {
+    const updateScore = () => {
         const scoreDisplays = document.querySelectorAll(".score");
-        if (!game || isNewGame) {
+        if (!game || !isPlayable) {
             scoreDisplays[0].textContent = "";
             scoreDisplays[1].textContent = "";
-            return
         } else {
             const players = game.getPlayers();
             scoreDisplays[0].textContent = players[0].getScore();
             scoreDisplays[1].textContent = players[1].getScore();
         }
     };
+    const updateTurn = (gameResult = 0) => {
+        const turnDisplay = document.querySelector(".gameInfo")
+        if (!isPlayable) {
+            return turnDisplay.textContent = ""
+        }
+        if (gameResult === 1) {
+            turnDisplay.textContent = `${game.getActivePlayer().name} won the game!`
+        } else if (gameResult === 2) {
+            turnDisplay.textContent = "It's a tie."
+        } else {
+            turnDisplay.textContent = `${game.getActivePlayer().name}'s turn`
+        }
+    }
     const updateScreen = () => {
         screenBoard.textContent = "";
 
@@ -160,7 +174,8 @@ const displayController = (() => {
         const selectedCellColumn = e.target.dataset.column;
         if (!selectedCellRow || !selectedCellColumn) return;
 
-        game.playRound(Number(selectedCellRow), Number(selectedCellColumn));
+        const roundResult = game.playRound(Number(selectedCellRow), Number(selectedCellColumn));
+        updateTurn(roundResult);
         updateScreen();
     };
 
@@ -232,12 +247,12 @@ function gameController(playerOne, playerTwo) {
             if (checkWinCondition()) {
                 activePlayer.increaseScore();
                 newMatch();
-                return;
+                return 1;
             };
         }
         if (currentTurn >= 9) {
             newMatch();
-            return;
+            return 2;
         }
 
         switchPlayerTurn();
