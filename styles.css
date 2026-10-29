@@ -103,9 +103,10 @@ input:focus {
 
 .player-name {
     display: none;
-
-    width: 112px;
-    padding: 4px 8px;
+    
+    width: 128px;
+    height: 35px;
+    padding: 2px 0;
     border: 4px;
     color: var(--white);
 
@@ -151,6 +152,25 @@ input:focus {
 .restart-icon svg {
     width: 28px;
     height: 28px;
+}
+
+.player-one,
+.player-two {
+    position: relative;
+}
+
+.score {
+    width: 128px;
+    position: absolute;
+    top: 48px;
+}
+
+.player-two .score {
+    text-align: right;
+}
+
+.results {
+    display: none;
 }
 
 .game-space {

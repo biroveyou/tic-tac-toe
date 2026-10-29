@@ -70,12 +70,13 @@ const displayController = (() => {
             playBtn.style.display = "none";
             restartBtn.style.display = "flex";
         }
-    }
-
+    };
     const restartGame = () => { 
         gameBoard.reset();
+        game.resetPlayerScores();
         isPlayable = false;
         updateScreen();
+        updateScore(true);
 
         const playerOneInput = document.querySelector("#player-one-input");
         const playerTwoInput = document.querySelector("#player-two-input");
@@ -88,8 +89,7 @@ const displayController = (() => {
 
         restartBtn.style.display = "none";
         playBtn.style.display = "flex";  
-    }
-
+    };
     const checkPlayableState = () => {
         if (!isPlayable) {
             const screenCells = document.querySelectorAll(".cell");
@@ -97,8 +97,19 @@ const displayController = (() => {
                 element.disabled = true;
             });
         }
-    }
-
+    };
+    const updateScore = (isNewGame = false) => {
+        const scoreDisplays = document.querySelectorAll(".score");
+        if (!game || isNewGame) {
+            scoreDisplays[0].textContent = "";
+            scoreDisplays[1].textContent = "";
+            return
+        } else {
+            const players = game.getPlayers();
+            scoreDisplays[0].textContent = players[0].getScore();
+            scoreDisplays[1].textContent = players[1].getScore();
+        }
+    };
     const updateScreen = () => {
         screenBoard.textContent = "";
 
@@ -141,7 +152,8 @@ const displayController = (() => {
             }
         }
         checkPlayableState();
-    }
+        updateScore();
+    };
 
     const clickHandlerBoard = (e) => {
         const selectedCellRow = e.target.dataset.row;
@@ -150,19 +162,21 @@ const displayController = (() => {
 
         game.playRound(Number(selectedCellRow), Number(selectedCellColumn));
         updateScreen();
-    }
+    };
 
     screenBoard.addEventListener("click", clickHandlerBoard);
     playBtn.addEventListener("click", playGame);
     restartBtn.addEventListener("click", restartGame);
 
     updateScreen();
-
 })();
 
 function createPlayer(name, order) {
     let playerScore = 0;
     const sign = order === 1 ? "X" : "O";
+    const getOrder = () => {
+        return order;
+    }
     const getScore = () => {
         return playerScore;
     };
@@ -182,7 +196,7 @@ function createPlayer(name, order) {
         return false;
     };
 
-    return {name, order, sign, getScore, increaseScore, resetScore, markSpot};
+    return {name, order, sign, getOrder, getScore, increaseScore, resetScore, markSpot};
 };
 
 function gameController(playerOne, playerTwo) {
@@ -195,9 +209,12 @@ function gameController(playerOne, playerTwo) {
     const getActivePlayer = () => {
         return activePlayer;
     };
+    const getPlayers = () => {
+        return players;
+    };
     const getWinCells = () => {
         return winCells;
-    }
+    };
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
@@ -224,6 +241,9 @@ function gameController(playerOne, playerTwo) {
         }
 
         switchPlayerTurn();
+    };
+    const resetPlayerScores = () => {
+        return players[0].resetScore() + players[1].resetScore();
     };
     const checkWinCondition = () => {
         const PLAYER_ORDER = activePlayer.order;
@@ -275,5 +295,5 @@ function gameController(playerOne, playerTwo) {
         return winCondition;
     };
 
-    return {getActivePlayer, getWinCells, playRound};
+    return {getActivePlayer, getPlayers, getWinCells, playRound, resetPlayerScores};
 }
